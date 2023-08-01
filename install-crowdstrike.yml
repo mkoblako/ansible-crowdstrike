@@ -1,0 +1,25 @@
+- name: Install crowdstrike
+  hosts: zmx
+  become: yes
+
+  vars:
+   key: E8C2345D2187472BAEC30B700B7B49B1-3F
+
+  tasks:
+   - name: Copy RPM to host
+     copy:
+      src: /etc/ansible/crowdstrike/files/falcon-sensor-6.58.0-15508.el7.x86_64.rpm
+      dest: /tmp/zabins/falcon-sensor-6.58.0-15508.el7.x86_64.rpm
+
+   - name: Install RPM
+     yum:
+      name: /tmp/zabins/falcon-sensor-6.58.0-15508.el7.x86_64.rpm
+      state: present
+
+   - name: Install key
+     command: /opt/CrowdStrike/falconctl -s --cid={{ key }}
+     
+   - name: Start falcon service
+     service:
+      name: falcon-sensor
+      state: started
