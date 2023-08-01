@@ -3,7 +3,7 @@
   become: yes
 
   vars:
-   key: E8C2345D2187472BAEC30B700B7B49B1-3F
+   key:
 
   tasks:
    - name: Copy RPM to host
