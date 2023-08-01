@@ -1,11 +1,17 @@
+
 - name: Install crowdstrike
   hosts: zmx
   become: yes
 
   vars:
-   key:
+   key: 
 
   tasks:
+   - name: Create temp directory
+     file:
+      path: /tmp/zabins/
+      state: directory
+
    - name: Copy RPM to host
      copy:
       src: /etc/ansible/crowdstrike/files/falcon-sensor-6.58.0-15508.el7.x86_64.rpm
@@ -18,8 +24,9 @@
 
    - name: Install key
      command: /opt/CrowdStrike/falconctl -s --cid={{ key }}
-     
+
    - name: Start falcon service
      service:
       name: falcon-sensor
       state: started
+
